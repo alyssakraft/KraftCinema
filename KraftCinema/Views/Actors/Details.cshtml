@@ -1,0 +1,55 @@
+﻿@model KraftCinema.Models.ActorDetailsVM
+
+@{
+	ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+	<h4>Actor</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.actor.Name)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.actor.Name)
+		</dd>
+		<dt class="col-sm-10">
+			@if (Model.actor.Photo != null && Model.actor.Photo.Length != 0)
+			{
+				<img height="150" src="@Url.Action("GetActorPhoto", "Actors", new {Model.actor.Id})" />
+			}
+		</dt>
+	</dl>
+</div>
+<div>
+	<a asp-action="Edit" asp-route-id="@Model?.actor.Id">Edit</a> |
+	<a asp-action="Index">Back to List</a>
+</div>
+
+<h1>Reddit Analysis</h1>
+<h4>@Html.DisplayFor(model => model.rating)</h4>
+<table id="redditTable" class="table">
+	<thead>
+		<tr>
+			<th>Reddit Posts</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.posts)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item)
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+@section Scripts {
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.min.css" integrity="sha384-zUxWDVAcow8yNu+q4VFsyZA3qWsKKGdWPW0SVjaR12LQze4SY8Nr75US6VDhbWkf" crossorigin="anonymous">
+	<script src="https://cdn.datatables.net/2.0.1/js/dataTables.min.js" integrity="sha384-O1CwIpQyArpIVIf/MmRsfivHkHhSlKgnk+wOxIMeEqObjH8MoV/Ox0ue6FlCwucf" crossorigin="anonymous"></script>
+	<script>let table1 = new DataTable('#redditTable');</script>
+}

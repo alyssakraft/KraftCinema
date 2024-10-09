@@ -1,0 +1,77 @@
+﻿@model KraftCinema.Models.MovieDetailsVM
+
+@{
+	ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+	<h4>Movie</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.movie.Title)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.movie.Title)
+		</dd>
+		<dd class="col-sm-10">
+			<a href="@Html.DisplayFor(model => model.movie.MovieLink)" target="_blank">IMDb Link</a>
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.movie.Genre)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.movie.Genre)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.movie.YearOfRelease)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.movie.YearOfRelease)
+		</dd>
+		<dt class="col-sm-10">
+			@if (Model.movie.Poster != null && Model.movie.Poster.Length != 0)
+			{
+				<img height="150" src="@Url.Action("GetMoviePhoto", "Movies", new {Model.movie.Id})" />
+			}
+		</dt>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.movie.MovieLink)
+		</dt>
+	</dl>
+</div>
+<div>
+	<a asp-action="Edit" asp-route-id="@Model?.movie.Id">Edit</a> |
+	<a asp-action="Index">Back to List</a>
+</div>
+
+<div>
+	<h1>Reddit Sentiment Analysis</h1>
+	<h4>@Html.DisplayFor(model => model.rating)</h4>
+	<table id="redditTable" class="table">
+		<thead>
+			<tr>
+				<th>Reddit Posts</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.posts)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item)
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+@section Scripts {
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.min.css" integrity="sha384-zUxWDVAcow8yNu+q4VFsyZA3qWsKKGdWPW0SVjaR12LQze4SY8Nr75US6VDhbWkf" crossorigin="anonymous">
+	<script src="https://cdn.datatables.net/2.0.1/js/dataTables.min.js" integrity="sha384-O1CwIpQyArpIVIf/MmRsfivHkHhSlKgnk+wOxIMeEqObjH8MoV/Ox0ue6FlCwucf" crossorigin="anonymous"></script>
+	<script>let table1 = new DataTable('#reddittable');</script>
+}
